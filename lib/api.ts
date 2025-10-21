@@ -18,9 +18,13 @@ export async function fetchNotes(
   query: string,
   page: number
 ): Promise<FetchNotesResponse> {
-  const { data } = await api.get<FetchNotesResponse>(
-    `/notes?search=${query}&page=${page}&perPage=${PER_PAGE}`
-  );
+  const { data } = await api.get<FetchNotesResponse>("/notes", {
+    params: {
+      search: query,
+      page: page,
+      perPage: PER_PAGE,
+    },
+  });
   return data;
 }
 
@@ -35,6 +39,6 @@ export async function deleteNote(id: Note["id"]): Promise<Note> {
 }
 
 export const fetchNoteById = async (id: string) => {
-  const res = await axios.get<Note>(`/notes/${id}`);
+  const res = await api.get<Note>(`/notes/${id}`);
   return res.data;
 };
